@@ -1,29 +1,35 @@
-class Solution {
-    public String multiply(String num1, String num2) {
-        int m = num1.length();
-        int n = num2.length();
-        int[] res = new int[m + n];
-
-        for(int i = m - 1; i >= 0; i--){
-            int d1 = num1.charAt(i)-'0';
-            for(int j = n - 1; j >= 0; j--){
-                int d2 = num2.charAt(j) -'0';
-                int mul = d1 * d2;
-                int p1 = i + j;
-                int p2 = i + j + 1;
-                int sum = mul + res[p2];
-                res[p2] = sum % 10;
-                res[p1] += sum / 10;
+class Solution 
+{
+    public String rle(String d)
+    {
+        StringBuilder s = new StringBuilder();
+        char a[] = d.toCharArray();
+        char b = a[0];
+        int count =0;
+        for(char c : a )
+        {
+            if(c == b)
+            {
+                count++;
+            }
+            else
+            {
+                s.append(count);
+                s.append(b);
+                b=c;
+                count = 1;
             }
         }
-        StringBuilder sb =new StringBuilder();
-        
-        for(int num : res) {
-            if(!(sb.length() == 0 && num == 0)){
-                sb.append(num);
-            }
+        s.append(count);
+        s.append(b);
+        return s.toString();
+    }
+    public String countAndSay(int n) 
+    {
+        if(n == 1)
+        {
+            return "1";
         }
-
-        return sb.length() == 0 ? "0" :sb.toString();
+        return rle(countAndSay(n-1));
     }
 }
